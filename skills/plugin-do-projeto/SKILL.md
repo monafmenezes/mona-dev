@@ -38,3 +38,10 @@ com o código. Plugin instalado só se for compartilhar com outra pessoa.
    voltas de ferramenta.
 4. Comece por **um** componente. Plugin que nasce com seis comandos morre com seis
    comandos não usados.
+
+## Armadilha que já custou tempo
+
+`claude plugin validate` **passa com o plugin quebrado**. Quem acusa é
+`claude plugin list`, no campo *Status*. Um caso real: declarar `"hooks"` no `plugin.json`
+duplica o `hooks/hooks.json` (que já carrega sozinho) e derruba o plugin **inteiro** —
+comandos, skills e tudo. Depois de mexer, confira o status de carregamento, não só o validate.
