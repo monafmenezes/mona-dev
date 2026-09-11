@@ -6,6 +6,5 @@
   "author": {
     "name": "Monalisa Menezes",
     "email": "monamenezesdev@gmail.com"
-  },
-  "hooks": "./hooks/hooks.json"
+  }
 }
