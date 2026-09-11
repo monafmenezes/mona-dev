@@ -1,0 +1,12 @@
+{
+  "name": "mona",
+  "description": "Plugins pessoais da Monalisa",
+  "owner": { "name": "Monalisa Menezes" },
+  "plugins": [
+    {
+      "name": "mona-dev",
+      "description": "Continuidade e economia de contexto entre sessões: checkpoint, retomada automática, captura de ideias por zero token e prompts prontos por tarefa.",
+      "source": "./"
+    }
+  ]
+}
