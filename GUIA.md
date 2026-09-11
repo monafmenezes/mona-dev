@@ -18,6 +18,19 @@ E uma coisa que acontece **sozinha**: depois de um `/compact` ou `/clear`, a ret
 aparece na tela sem você pedir — mas só se aquele projeto tiver checkpoint. Projeto sem
 checkpoint não mostra nada e não custa nada.
 
+## Ligar num projeto que já existe
+
+Não precisa instalar nada por projeto — o plugin está no escopo de usuário, então já vale
+em todos eles. O que falta em cada um é só a **semente**, uma vez:
+
+1. Abra o projeto e rode **`/checkpoint`**. Ele cria o `.claude/checkpoint.md` e o
+   `.claude/.gitignore`. Só a partir daí a retomada automática funciona ali — antes do
+   primeiro checkpoint o hook fica mudo de propósito.
+2. Se o projeto não tiver `CLAUDE.md`, ou tiver um inchado, rode **`/projeto-novo`**: em
+   projeto que já existe ele **audita antes de mexer** e espera sua aprovação.
+
+O `ideia:` funciona em qualquer pasta desde já, sem semente nenhuma.
+
 ## O dia típico
 
 ```
