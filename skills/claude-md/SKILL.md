@@ -9,7 +9,17 @@ Um `CLAUDE.md` é **pago em toda sessão daquele projeto**, para sempre. É o ú
 repositório com esse custo. Então a régua não é "o que é útil" — é **"o que é útil a ponto
 de valer ser relido toda vez"**.
 
-**Teto: 60 linhas.** Passou disso, alguma coisa ali é documentação disfarçada de regra.
+**Alvo: 60 linhas.** Passou disso, o ônus da prova inverte: cada seção acima do
+alvo precisa passar no teste da seção seguinte, uma por uma, explicitamente.
+
+Projeto com **lei própria** — um conjunto de regras invioláveis que toda mudança
+tem que respeitar — legitimamente passa do alvo, porque essas regras mudam a
+primeira resposta de toda sessão. O `copiloto-formaturas` fechou em 137 linhas
+por isso (8 regras de desenho + 6 decisões que não se reabrem), vindo de 383.
+O que **não** legitima passar: histórico, estado e detalhe de domínio.
+
+Quando a lei for grande, prefira **arquivo próprio com ponteiro** (como a
+`constitution.md` do `acerto`) a inchar o `CLAUDE.md`.
 
 ## O que entra
 
