@@ -20,6 +20,11 @@ repositório, contexto reconstruído do zero, a mesma explicação pela terceira
 **`/checkpoint` vem antes dos três.** Compactar sem checkpoint perde o durável; limpar sem
 checkpoint perde tudo.
 
+Mas ele **não é de graça** (~3k tokens: injeta o estado, escreve o arquivo, reavalia memória).
+Vale quando o contexto vai ser descartado logo em seguida. **Task fechada não é motivo** — se a
+próxima task é do mesmo projeto e a sessão ainda está leve, seguir direto é mais barato que
+gravar e recarregar.
+
 Sugira **uma vez**, em uma linha, e siga trabalhando. Lembrete de economia repetido é o
 próprio desperdício que ele diz combater.
 
