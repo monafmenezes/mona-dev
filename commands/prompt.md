@@ -1,7 +1,7 @@
 ---
-description: Gerar o prompt pronto pra colar numa sessão limpa (tela, endpoint, bug, spec, revisão)
+description: Gerar o prompt pronto pra colar numa sessão limpa (task do tasks.md, tela, endpoint, bug, spec, revisão)
 allowed-tools: Bash(git status:*), Bash(ls:*), Bash(find:*), Bash(cat:*), Read, Grep, Glob
-argument-hint: "<tela-nova|endpoint|bug|spec|revisao> <o que é>"
+argument-hint: "<task|tela-nova|endpoint|bug|spec|revisao> <o que é / T017 / próxima>"
 ---
 
 ## Projeto
@@ -36,6 +36,16 @@ E feche com **o modelo sugerido**, com o motivo em meia linha:
 - **Haiku** para mecânico e repetitivo: renomear, mover, aplicar o mesmo ajuste em N arquivos.
 
 Por tipo:
+
+- **`task`** — projeto com SDD (`specs/NNN-nome/tasks.md`). O argumento é o ID (`T017`) ou
+  `próxima` (a primeira sem ✅). Leia **só o necessário**: a task e as vizinhas do mesmo
+  `## Passo`, a seção do `plan.md` que ela cita, e as duas seções do fim do `tasks.md`
+  (*Regra que vale para toda tela desta fatia* e *Portões de aceitação*) — elas valem pra
+  toda task e a sessão nova não vai adivinhar que existem.
+  O **molde é a task irmã já marcada ✅**: nomeie os arquivos que ela produziu, é o padrão
+  a copiar. O **critério de pronto** são os portões da fatia mais os comandos que o
+  `CLAUDE.md` manda rodar. Feche lembrando de **marcar ✅ no `tasks.md`** — é o passo que
+  mais escapa, e sem ele a próxima sessão não sabe onde parou.
 
 - **`tela-nova`** — nomeie o componente-molde já existente, a rota, o estado de carregando
   e de erro, e a conferência em 360px e nos dois temas. Se o projeto tem desenho, cite o
