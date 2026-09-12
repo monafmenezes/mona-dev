@@ -11,7 +11,7 @@ Cinco comandos e uma palavrinha mágica. Se você lembrar só de uma coisa, lemb
 | `/checkpoint` | antes de parar, compactar ou limpar | grava onde você parou, o que decidiu e o próximo passo em `.claude/checkpoint.md` |
 | `/retomar` | ao voltar num projeto | ele te conta o estado em ≤15 linhas, **sem reler o repositório** |
 | `/ideias` | quando a fila incomodar | triagem: cada ideia vira issue, vira spec, ou morre com o motivo escrito |
-| `/prompt <tipo> <o quê>` | antes de abrir sessão nova pra uma tarefa | monta o texto pra colar, já com os arquivos certos e o modelo sugerido |
+| `/prompt <tipo> <o quê>` | antes de começar qualquer passo novo | monta o texto pra colar, já com os arquivos certos e o modelo sugerido — tipos: `task`, `tela-nova`, `endpoint`, `bug`, `spec`, `revisao` |
 | `/projeto-novo` | projeto novo, ou um antigo bagunçado | cria o `CLAUDE.md` enxuto e o `.claude/` |
 
 E uma coisa que acontece **sozinha**: depois de um `/compact` ou `/clear`, a retomada
@@ -70,6 +70,33 @@ nada.
 O modelo sugerido vem junto, com o motivo: se as cinco partes ficaram concretas, **Sonnet
 resolve**. Se sobrou "descubra", é Opus — delegar ambiguidade pro modelo barato sai mais
 caro, porque volta errado.
+
+### Qual tipo usar
+
+O tipo só muda **o que eu vou perguntar e procurar** antes de escrever o prompt. Na dúvida,
+olhe a coluna do meio: é ela que decide.
+
+| Tipo | Use quando a frase for… | Exemplo de como digitar |
+|---|---|---|
+| `task` | "vou fazer a próxima task do `tasks.md`" | `/prompt task T017` · `/prompt task próxima` |
+| `tela-nova` | "preciso de uma tela/componente que ainda não existe" | `/prompt tela-nova lançar despesa de turma` |
+| `endpoint` | "preciso de uma rota de API nova" | `/prompt endpoint listar rodadas em aberto` |
+| `bug` | "isso deveria funcionar e não funciona" | `/prompt bug o total do mês vem zerado` |
+| `spec` | "vou **escrever** a spec, ainda não é código" | `/prompt spec fatia 013 relatório anual` |
+| `revisao` | "está pronto, quero alguém olhando com régua" | `/prompt revisao a fatia 004 contra a constitution` |
+
+Dois enganos fáceis de cometer:
+
+- **`task` × `tela-nova`.** Se o trabalho já está escrito num `tasks.md`, é **sempre `task`**
+  — mesmo que o resultado seja uma tela. O `task` já traz os portões da fatia e a task irmã
+  como molde; o `tela-nova` não sabe que esse `tasks.md` existe. Use `tela-nova` só quando
+  não há spec mandando.
+- **`spec` × o resto.** `spec` é pra **decidir**, sem stack e sem arquivo de código. Se você
+  já sabe o que construir, não é `spec`.
+
+Se você errar o tipo, não quebra nada: eu peço as informações que faltam antes de escrever.
+E se faltar alguma das cinco partes, eu **pergunto na hora** — prompt com buraco vira
+retrabalho na sessão seguinte, e aí a economia virou prejuízo.
 
 ## Onde ficam os arquivos
 
