@@ -11,7 +11,7 @@ Cinco comandos e uma palavrinha mágica. Se você lembrar só de uma coisa, lemb
 | `/checkpoint` | antes de parar, compactar ou limpar | grava onde você parou, o que decidiu e o próximo passo em `.claude/checkpoint.md` |
 | `/retomar` | ao voltar num projeto | ele te conta o estado em ≤15 linhas, **sem reler o repositório** |
 | `/ideias` | quando a fila incomodar | triagem: cada ideia vira issue, vira spec, ou morre com o motivo escrito |
-| `/prompt <tipo> <o quê>` | antes de começar qualquer passo novo | monta o texto pra colar, já com os arquivos certos e o modelo sugerido — tipos: `task`, `tela-nova`, `endpoint`, `bug`, `spec`, `revisao` |
+| `/prompt <tipo> <o quê>` | antes de começar qualquer passo novo | monta o texto pra colar, já com os arquivos certos e o modelo sugerido — tipos: `spec`, `plano`, `tasks`, `task`, `tela-nova`, `endpoint`, `bug`, `revisao` |
 | `/projeto-novo` | projeto novo, ou um antigo bagunçado | cria o `CLAUDE.md` enxuto e o `.claude/` |
 
 E uma coisa que acontece **sozinha**: depois de um `/compact` ou `/clear`, a retomada
@@ -76,16 +76,28 @@ caro, porque volta errado.
 O tipo só muda **o que eu vou perguntar e procurar** antes de escrever o prompt. Na dúvida,
 olhe a coluna do meio: é ela que decide.
 
+**Projeto com spec (o `acerto`)** — a fatia desce essa escada, um degrau por sessão:
+
 | Tipo | Use quando a frase for… | Exemplo de como digitar |
 |---|---|---|
+| `spec` | "vou **escrever** o que essa fatia faz, ainda não é código" | `/prompt spec fatia 013 relatório anual` |
+| `plano` | "a spec está fechada, agora decido **como** construir" | `/prompt plano 004` |
+| `tasks` | "o plano está aprovado, agora quebro em passos" | `/prompt tasks 004` |
 | `task` | "vou fazer a próxima task do `tasks.md`" | `/prompt task T017` · `/prompt task próxima` |
+
+A diferença entre `tasks` e `task` é uma letra e muita coisa: **`tasks` escreve a lista inteira,
+uma vez por fatia; `task` executa um item dela, e você vai digitar esse várias vezes.**
+
+**Projeto sem spec no meio** (PaceAI, Jarbas, portfólio):
+
+| Tipo | Use quando a frase for… | Exemplo de como digitar |
+|---|---|---|
 | `tela-nova` | "preciso de uma tela/componente que ainda não existe" | `/prompt tela-nova lançar despesa de turma` |
 | `endpoint` | "preciso de uma rota de API nova" | `/prompt endpoint listar rodadas em aberto` |
 | `bug` | "isso deveria funcionar e não funciona" | `/prompt bug o total do mês vem zerado` |
-| `spec` | "vou **escrever** a spec, ainda não é código" | `/prompt spec fatia 013 relatório anual` |
 | `revisao` | "está pronto, quero alguém olhando com régua" | `/prompt revisao a fatia 004 contra a constitution` |
 
-Dois enganos fáceis de cometer:
+Três enganos fáceis de cometer:
 
 - **`task` × `tela-nova`.** Se o trabalho já está escrito num `tasks.md`, é **sempre `task`**
   — mesmo que o resultado seja uma tela. O `task` já traz os portões da fatia e a task irmã
@@ -93,6 +105,10 @@ Dois enganos fáceis de cometer:
   não há spec mandando.
 - **`spec` × o resto.** `spec` é pra **decidir**, sem stack e sem arquivo de código. Se você
   já sabe o que construir, não é `spec`.
+- **Pular o `plano`.** Dá pra pedir `tasks` com a spec pronta e sem plano, e sai lista — só
+  que ela vai ter inventado modelo de dados e ordem de construção no caminho, escondido
+  dentro das tasks, onde você não revisa. Se o degrau de trás estiver com buraco eu aviso
+  antes de gerar.
 
 Se você errar o tipo, não quebra nada: eu peço as informações que faltam antes de escrever.
 E se faltar alguma das cinco partes, eu **pergunto na hora** — prompt com buraco vira
