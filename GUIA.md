@@ -83,10 +83,14 @@ olhe a coluna do meio: é ela que decide.
 | `spec` | "vou **escrever** o que essa fatia faz, ainda não é código" | `/prompt spec fatia 013 relatório anual` |
 | `plano` | "a spec está fechada, agora decido **como** construir" | `/prompt plano 004` |
 | `tasks` | "o plano está aprovado, agora quebro em passos" | `/prompt tasks 004` |
-| `task` | "vou fazer a próxima task do `tasks.md`" | `/prompt task T017` · `/prompt task próxima` |
+| `task` | "vou fazer a próxima task do `tasks.md`" | `/prompt task T017` · `/prompt task passo 5` · `/prompt task próxima` |
 
 A diferença entre `tasks` e `task` é uma letra e muita coisa: **`tasks` escreve a lista inteira,
 uma vez por fatia; `task` executa um item dela, e você vai digitar esse várias vezes.**
+
+No `task`, `passo 5` pega o Passo inteiro — costuma ser o tamanho certo de uma sessão, porque
+as tasks de um mesmo Passo compartilham contexto. E `próxima` pula o que está marcado como
+bloqueado (🔒 e ⛓): se só sobrou bloqueio, eu digo quem está segurando em vez de gerar prompt.
 
 **Projeto sem spec no meio** (PaceAI, Jarbas, portfólio):
 

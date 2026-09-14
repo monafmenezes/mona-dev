@@ -1,7 +1,7 @@
 ---
 description: Gerar o prompt pronto pra colar numa sessão limpa (spec, plano, tasks, task, tela, endpoint, bug, revisão)
 allowed-tools: Bash(git status:*), Bash(ls:*), Bash(find:*), Bash(cat:*), Read, Grep, Glob
-argument-hint: "<spec|plano|tasks|task|tela-nova|endpoint|bug|revisao> <o que é / 004 / T017 / próxima>"
+argument-hint: "<spec|plano|tasks|task|tela-nova|endpoint|bug|revisao> <o que é / 004 / T017 / passo 3b / próxima>"
 ---
 
 ## Projeto
@@ -72,15 +72,26 @@ um plano chutado ou uma task sem critério.
   Modelo: **Sonnet** se o plano tem ordem de construção clara; **Opus** se a ordem ainda
   está no ar — aí o que falta é plano, não tasks.
 
-- **`task`** — projeto com SDD (`specs/NNN-nome/tasks.md`). O argumento é o ID (`T017`) ou
-  `próxima` (a primeira sem ✅). Leia **só o necessário**: a task e as vizinhas do mesmo
-  `## Passo`, a seção do `plan.md` que ela cita, e as duas seções do fim do `tasks.md`
-  (*Regra que vale para toda tela desta fatia* e *Portões de aceitação*) — elas valem pra
-  toda task e a sessão nova não vai adivinhar que existem.
+- **`task`** — projeto com SDD (`specs/NNN-nome/tasks.md`). O argumento é o ID (`T017`),
+  `passo 3b` (o Passo inteiro, que costuma ser o tamanho certo de uma sessão), ou
+  `próxima`.
+
+  **Antes de escolher, leia a legenda do topo do `tasks.md`.** Task sem ✅ não quer dizer
+  task disponível: há marcas de bloqueio (no `acerto`, 🔒 = falta uma resposta, ⛓ = depende
+  de outra fatia). **`próxima` é a primeira sem ✅ e sem marca de bloqueio** — pular isso
+  gera um prompt bonito pra um trabalho que não pode começar. Se todas as que sobraram
+  estiverem bloqueadas, **não gere prompt nenhum**: diga quem bloqueia cada uma e sugira
+  a próxima fatia com task livre.
+
+  Leia **só o necessário**: a task e as vizinhas do mesmo `## Passo`, a seção do `plan.md`
+  que ela cita, e as duas seções do fim do `tasks.md` (*Regra que vale para toda tela desta
+  fatia* e *Portões de aceitação*) — elas valem pra toda task e a sessão nova não vai
+  adivinhar que existem.
   O **molde é a task irmã já marcada ✅**: nomeie os arquivos que ela produziu, é o padrão
-  a copiar. O **critério de pronto** são os portões da fatia mais os comandos que o
-  `CLAUDE.md` manda rodar. Feche lembrando de **marcar ✅ no `tasks.md`** — é o passo que
-  mais escapa, e sem ele a próxima sessão não sabe onde parou.
+  a copiar. O **critério de pronto** é o *Pronto quando* da própria task, mais os portões da
+  fatia e os comandos que o `CLAUDE.md` manda rodar. Feche lembrando de **marcar ✅ no
+  `tasks.md`** — é o passo que mais escapa, e sem ele a próxima sessão não sabe onde parou.
+  Num `passo`, isso vale pra cada task do passo, uma a uma.
 
 ### Código direto, sem spec no meio
 
