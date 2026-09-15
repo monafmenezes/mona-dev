@@ -8,6 +8,26 @@ description: Réguas de economia de token e continuidade — quando sugerir /com
 O caro nunca é a resposta longa. É **redescobrir o que já se sabia** — releitura de
 repositório, contexto reconstruído do zero, a mesma explicação pela terceira vez.
 
+## A conta que domina todas as outras
+
+O gasto de uma sessão **não** é a soma das respostas: é `nº de respostas × tamanho do
+contexto`, e o contexto só cresce. Toda resposta relê tudo que veio antes. Um screenshot
+tirado na resposta 100 de uma sessão de 700 é relido 600 vezes.
+
+Medição real de 48h dela (set/2026, projeto `acerto`): 671M de tokens de contexto relido,
+**43% deles com a sessão acima de 200k**. Cortar em 100k teria economizado 39%; cortar em
+60k, 61%. Nenhuma outra régua desta skill chega perto disso.
+
+Daí as duas regras duras:
+
+1. **Corte por token absoluto, não por porcentagem da janela.** Numa janela de 1M, 200k de
+   contexto pinta "20%" e parece folga — mas é o ponto em que cada resposta já custa cinco
+   vezes o começo da sessão. A régua é **80k = `/checkpoint`, 120k = `/clear`**, em qualquer
+   janela. (A statusline dela já pinta amarelo em 80k e vermelho em 120k por isso.)
+2. **Janela grande não é economia — é a remoção do freio.** `opus[1m]` só se justifica pra
+   uma tarefa que *precisa* de 1M de uma vez. Como padrão, ela só deixa a sessão crescer
+   até onde o preço machuca, porque a compactação automática nunca dispara.
+
 ## Quando sugerir o quê
 
 | Situação | Sugestão | Por quê |
@@ -56,6 +76,12 @@ tarefa que esta sessão já tem contexto pra fazer — aí é pagar duas vezes p
 - **Skill invocada**: fica no contexto até o fim da sessão, e a compactação devolve só os
   primeiros 5.000 tokens de cada. Skill gorda custa mais e ainda chega cortada.
 - **Ler arquivo inteiro** quando bastava `sed -n '40,80p'`.
+- **Screenshot do navegador: ~3k tokens cada, e fica no contexto pra sempre.** Foi o
+  retorno de ferramenta mais caro da medição (124k tokens em 42 chamadas numa sessão só).
+  `read_page` e `get_page_text` respondem "o texto está certo?" por ~90 tokens. Screenshot
+  só pra o que é genuinamente visual: alinhamento, cor, quebra de layout.
+- **Saída de comando sem corte.** `| head`, `--short`, `--oneline`, `-n 20`. Um `git diff`
+  cru ou um `npm test` verboso entra inteiro e é relido em toda resposta seguinte.
 
 ## Captura sem custo
 
