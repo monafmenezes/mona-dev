@@ -27,6 +27,33 @@ Todo prompt gerado tem estas cinco partes, sempre:
    que abre em 360px, o comando que roda limpo).
 5. **Fora de escopo** — o que a sessão nova *não* deve tocar.
 
+### Convenções que a base já tem, e o desenho/spec nunca repete
+
+Antes de fechar o prompt, **procure isto na base agora** — não deixe pra sessão nova
+descobrir sozinha, porque ela vai chutar, e o chute compila. Duas categorias já morderam:
+
+- **Contrato de dados, não só de layout.** Desenho (Claude Design ou outro) é maquete
+  visual — ele inventa um identificador plausível (`FORMATURA_FACULDADE`) onde o
+  back-end de verdade tem outro (`FORMATURA_DE_FACULDADE`). Todo enum, status ou campo
+  que a tela nova filtra, exibe ou envia de volta: confira o valor exato no
+  schema/migration/DTO real, não o que "parece certo" pelo rótulo em português do
+  desenho. TypeScript não acusa esse erro (as duas pontas são só `string`) — só quebra
+  em runtime, e só se alguém clicar o filtro certo pra notar. Cite no prompt o
+  arquivo:linha de onde o valor real vem.
+- **Lista sempre paginada, se a base tem o padrão.** Procure um helper de paginação já
+  usado em outras listagens (`grep` por paginação/página/limit nos services e
+  controllers). Se existir, **é o default** para toda listagem nova — endpoint e tela —
+  e só fica de fora com justificativa escrita no prompt (ex.: "N itens no domínio,
+  cresce devagar, decisão X"). Lista sem fim que "funciona hoje" é a mesma falha
+  que gerou o helper em primeiro lugar; sessão nova sem esse aviso reinventa o
+  problema, não o helper.
+- **O desenho é sempre desktop.** Se o critério de pronto pede um breakpoint estreito
+  (360px é comum) e a base já tem um padrão de tabela responsiva (ex.: CSS module com
+  `@media` que empilha linha em cartão), **nomeie esse arquivo-molde também** — copiar
+  só o HTML do desenho (que não tem media query nenhuma) produz uma tela bonita no
+  desktop e ilegível no celular, e "conferido em 360px" vira caixa marcada sem
+  verificação de verdade.
+
 E **cole junto o bloco de execução abaixo, sempre, literalmente** — ele custa 4 linhas no
 prompt e corta ida e volta na sessão inteira:
 
@@ -128,9 +155,11 @@ um plano chutado ou uma task sem critério.
 
 - **`tela-nova`** — nomeie o componente-molde já existente, a rota, o estado de carregando
   e de erro, e a conferência em 360px e nos dois temas. Se o projeto tem desenho, cite o
-  arquivo do desenho.
+  arquivo do desenho **e** rode a checagem de "Convenções que a base já tem" acima —
+  contrato de dados real e molde de responsividade, não só o HTML do desenho.
 - **`endpoint`** — contrato (entrada, saída, erro), onde a validação mora, o que vai pro
-  log e o que **nunca** vai (dado pessoal), e o teste que prova.
+  log e o que **nunca** vai (dado pessoal), e o teste que prova. Se devolve lista,
+  a checagem de paginação acima também vale aqui.
 - **`bug`** — o sintoma observado, o que já foi descartado, os arquivos suspeitos e
   **como reproduzir**. Sem reprodução, o prompt é "adivinhe" e vai custar caro.
 - **`revisao`** — o que revisar, contra qual régua, e o formato da devolutiva.
