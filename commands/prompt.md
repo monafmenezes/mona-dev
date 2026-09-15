@@ -27,6 +27,20 @@ Todo prompt gerado tem estas cinco partes, sempre:
    que abre em 360px, o comando que roda limpo).
 5. **Fora de escopo** — o que a sessão nova *não* deve tocar.
 
+E **cole junto o bloco de execução abaixo, sempre, literalmente** — ele custa 4 linhas no
+prompt e corta ida e volta na sessão inteira:
+
+```markdown
+## Como executar
+- Agrupe num mesmo turno as chamadas que não dependem uma da outra, e prefira um comando
+  composto a três `Bash` seguidos. Cada turno relê o contexto inteiro — turno a mais é
+  contexto relido a mais.
+- Corte a saída: `| head`, `--short`, `--oneline`, `-n 20`. O que entra é relido pra sempre.
+- Navegador: `read_page`/`get_page_text` pra conferir texto; screenshot (~3k tokens, fica no
+  contexto) só pra o que é visual mesmo — alinhamento, cor, layout quebrado.
+- Ao passar de ~120k de contexto, pare e grave o estado em vez de seguir arrastando a sessão.
+```
+
 E feche com **o modelo sugerido**, com o motivo em meia linha:
 
 - **Sonnet** quando as cinco partes acima ficaram concretas — arquivo nomeado, molde

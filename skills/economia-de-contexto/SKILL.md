@@ -28,6 +28,20 @@ Daí as duas regras duras:
    uma tarefa que *precisa* de 1M de uma vez. Como padrão, ela só deixa a sessão crescer
    até onde o preço machuca, porque a compactação automática nunca dispara.
 
+## Turno a mais é contexto relido a mais
+
+A outra metade da conta é o **número de turnos**, e essa é responsabilidade de quem executa,
+não dela. Na medição: **2.499 chamadas de ferramenta em 48h, nenhuma agrupada** — uma por
+turno, cada turno relendo ~150k. Agrupar o que é independente valeria 10–15% do total.
+
+- Chamadas que não dependem uma da outra vão **no mesmo turno**.
+- Três `Bash` em sequência viram um comando composto.
+- No navegador existe `browser_batch` — foi usado 43 vezes contra 162 chamadas soltas.
+
+**Thinking também é contexto**: foi 46% de todo o output (1,39M tokens em 48h) e fica na
+sessão sendo relido. Tarefa com as cinco partes concretas quase não precisa dele — outro
+motivo pro `/prompt` pagar tão bem.
+
 ## Quando sugerir o quê
 
 | Situação | Sugestão | Por quê |
