@@ -1,7 +1,7 @@
 ---
 description: Gerar o prompt pronto pra colar numa sessão limpa (spec, plano, tasks, task, tela, endpoint, bug, revisão)
 allowed-tools: Bash(git status:*), Bash(ls:*), Bash(find:*), Bash(cat:*), Read, Grep, Glob
-argument-hint: "<spec|plano|tasks|task|tela-nova|endpoint|bug|revisao> <o que é / 004 / T017 / passo 3b / próxima>"
+argument-hint: "<spec|plano|tasks|task|tela-nova|endpoint|bug|revisao> <o que é / 004 / T017 / passo 3b / próxima> [pro antigravity]"
 ---
 
 ## Projeto
@@ -34,6 +34,23 @@ E feche com **o modelo sugerido**, com o motivo em meia linha:
 - **Opus** quando sobrou ambiguidade de verdade: decisão de arquitetura, spec,
   trade-off, ou bug cuja causa ninguém sabe.
 - **Haiku** para mecânico e repetitivo: renomear, mover, aplicar o mesmo ajuste em N arquivos.
+
+### Se o destino não for o Claude Code
+
+Quando o pedido terminar com **"pro antigravity"** (ou citar outra ferramenta: Gemini CLI,
+Cursor, Copilot), o prompt é o mesmo — as cinco partes não mudam. Mudam quatro coisas:
+
+- **Nada de comando do Claude Code dentro do prompt.** `/checkpoint`, `/clear`, `/ideias`
+  não existem lá. Colar um prompt que manda rodar um comando inexistente queima uma volta.
+- **Modelo: traduza a régua, não o nome.** Em vez de "use Sonnet", diga "tarefa concreta,
+  pode ir no modelo rápido" ou "tem decisão de arquitetura aqui, use o mais capaz" — ela
+  escolhe no seletor da IDE.
+- **Aponte o `AGENTS.md`**, não o `CLAUDE.md` — é o que aquelas ferramentas leem. Se o
+  projeto não tiver `AGENTS.md`, avise **antes de gerar**: um `/checkpoint` aqui cria.
+- **Feche pedindo o retorno.** O trabalho feito lá não volta sozinho pro checkpoint daqui.
+  A última linha do prompt deve pedir, ao terminar: *o que mudou (arquivo → o quê), o que
+  foi decidido e o próximo passo*, em até 5 linhas — é isso que ela cola aqui no
+  `/checkpoint` pra retomada continuar valendo.
 
 Por tipo:
 

@@ -67,6 +67,10 @@ texto colável com: o que fazer, os arquivos nomeados, o molde a seguir, o crit�
 pronto e o que não tocar. Aí você abre uma sessão limpa, cola, e ela não precisa explorar
 nada.
 
+Vai desenvolver no Antigravity? Termine o pedido com **`pro antigravity`**: sai o mesmo
+prompt, sem comando do Claude Code dentro, apontando o `AGENTS.md` e já pedindo as 5 linhas
+de retorno que você cola aqui no `/checkpoint` depois.
+
 O modelo sugerido vem junto, com o motivo: se as cinco partes ficaram concretas, **Sonnet
 resolve**. Se sobrou "descubra", é Opus — delegar ambiguidade pro modelo barato sai mais
 caro, porque volta errado.
