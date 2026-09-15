@@ -1,7 +1,7 @@
 {
   "name": "mona-dev",
   "displayName": "mona-dev",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Continuidade e economia de contexto entre sessões: checkpoint, retomada automática depois de compact/clear, captura de ideias por zero token, prompts prontos por tipo de tarefa e réguas de quando trocar de modelo ou limpar a sessão.",
   "author": {
     "name": "Monalisa Menezes",

@@ -69,7 +69,9 @@ Depois de gravar:
      estado vive no `.claude/checkpoint.md`, que é ignorado no git. O espelho só
      *aponta* pro checkpoint.
 
-   Formato fixo, **teto de 25 linhas**:
+   Formato fixo, **teto de 25 linhas** — projeto com lei própria (regras invioláveis,
+   privacidade não-negociável) passa disso, pelo mesmo motivo que o `CLAUDE.md` dele passa
+   de 60. O que **não** legitima passar: histórico, estado e detalhe de domínio.
 
    ```markdown
    # <projeto>
