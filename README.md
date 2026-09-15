@@ -12,7 +12,7 @@ durável, e `/clear` não salva nada.
 
 | Componente | O que faz |
 |---|---|
-| `/checkpoint` | grava o estado do projeto em `.claude/checkpoint.md` antes de parar |
+| `/checkpoint` | grava o estado do projeto em `.claude/checkpoint.md` antes de parar, e atualiza o `AGENTS.md` |
 | `/retomar` | devolve o estado em ≤15 linhas, sem reler o repositório |
 | `/ideias` | triagem da fila de ideias capturadas |
 | `/prompt` | gera o prompt colável pra uma sessão limpa, com o modelo sugerido |
@@ -34,6 +34,10 @@ durável, e `/clear` não salva nada.
   Plugin de economia que fala o tempo todo já falhou.
 - **Injeção `!` nos comandos.** O estado do git chega junto com o pedido, em vez de custar
   idas e voltas de ferramenta. `/retomar` responde sem chamar ferramenta nenhuma.
+- **`AGENTS.md` é espelho, não segunda fonte.** O Antigravity e o Gemini CLI não leem
+  `CLAUDE.md`; o `/checkpoint` reescreve o `AGENTS.md` a partir dele. Estado de sessão
+  nunca entra ali — `AGENTS.md` é versionado, o checkpoint não é, então o espelho só
+  aponta pro checkpoint.
 - **Skills magras.** A compactação devolve só os primeiros 5.000 tokens de cada skill —
   skill gorda custa mais e ainda chega cortada.
 

@@ -8,7 +8,7 @@ Cinco comandos e uma palavrinha mágica. Se você lembrar só de uma coisa, lemb
 | Você digita | Quando | O que acontece |
 |---|---|---|
 | `ideia: <texto>` | surgiu um insight no meio do trabalho | some da tela, vai pra um arquivo, **nada** é enviado pro Claude. Zero token, zero desvio de assunto |
-| `/checkpoint` | antes de parar, compactar ou limpar | grava onde você parou, o que decidiu e o próximo passo em `.claude/checkpoint.md` |
+| `/checkpoint` | antes de parar, compactar ou limpar | grava onde você parou, o que decidiu e o próximo passo em `.claude/checkpoint.md` — e mantém o `AGENTS.md` em dia |
 | `/retomar` | ao voltar num projeto | ele te conta o estado em ≤15 linhas, **sem reler o repositório** |
 | `/ideias` | quando a fila incomodar | triagem: cada ideia vira issue, vira spec, ou morre com o motivo escrito |
 | `/prompt <tipo> <o quê>` | antes de começar qualquer passo novo | monta o texto pra colar, já com os arquivos certos e o modelo sugerido — tipos: `spec`, `plano`, `tasks`, `task`, `tela-nova`, `endpoint`, `bug`, `revisao` |

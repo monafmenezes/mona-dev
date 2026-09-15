@@ -49,6 +49,14 @@ A pergunta que resolve quase todos os casos: **isso muda o que eu faço já na p
 resposta da sessão?** Se a resposta é "não, mas é bom saber quando o assunto aparecer",
 é arquivo à parte, não `CLAUDE.md`.
 
+## Espelho pra outras ferramentas
+
+Antigravity e Gemini CLI não leem `CLAUDE.md` — leem `AGENTS.md`. Quando o projeto for
+tocado por elas também, mantenha um `AGENTS.md` de até 25 linhas **gerado a partir do
+`CLAUDE.md`**: frase de negócio, como rodar, o que não se reabre, armadilhas e um ponteiro
+pro `.claude/checkpoint.md`. Espelho não é segunda fonte: divergiu, vale o `CLAUDE.md`.
+Quem regrava é o `/checkpoint`.
+
 ## Auditar um que já existe
 
 1. Meça (`wc -l`) e diga o custo antes de propor qualquer coisa.

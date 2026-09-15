@@ -29,6 +29,9 @@ depois pergunte, de uma vez só, no máximo quatro coisas:
 - `CLAUDE.md`, **teto de 60 linhas**. Ele é pago em toda sessão deste projeto: cada linha
   precisa se justificar. Regra e mapa entram; histórico e o que o `git log` já conta, não.
 - `.claude/.gitignore` com `checkpoint.md` e `ideias.md`.
+- `AGENTS.md`, espelho do `CLAUDE.md` pra ferramentas que não o leem (Antigravity, Gemini
+  CLI), **teto de 25 linhas** — formato no `/checkpoint`, que o mantém atualizado daí em
+  diante. Pule se o projeto só vai ser tocado pelo Claude Code.
 - `.claude/launch.json` se houver servidor de desenvolvimento.
 
 **Passo 3 — decida junto com ela, sem decidir sozinho:** este projeto merece
