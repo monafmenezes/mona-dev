@@ -49,6 +49,27 @@ claude plugin install mona-dev@local --scope user
 
 Precisa de `~/.claude/marketplaces/local.json` apontando pra esta pasta.
 
+### ⚠️ Editar o repo não muda nada nas sessões
+
+O plugin instalado roda de uma **cópia** em `~/.claude/plugins/cache/mona/mona-dev/<versão>/`,
+congelada na hora da instalação — mesmo com o marketplace apontando pra esta pasta. Editar aqui
+e rodar `/checkpoint` executa a versão velha, sem erro nenhum, e isso passa despercebido: em
+set/2026 sete commits ficaram três dias fora das sessões desse jeito.
+
+Depois de mexer nos comandos ou nas skills:
+
+```bash
+# 1. suba a versão em .claude-plugin/plugin.json
+claude plugin update mona-dev@mona -y
+# 2. reinicie o Claude Code
+```
+
+Conferir o que está valendo de verdade:
+
+```bash
+grep -l "<trecho que você acabou de escrever>" ~/.claude/plugins/cache/mona/mona-dev/*/commands/*.md
+```
+
 ## Conferir o custo
 
 ```bash
