@@ -17,6 +17,7 @@ durável, e `/clear` não salva nada.
 | `/ideias` | triagem da fila de ideias capturadas |
 | `/prompt` | gera o prompt colável pra uma sessão limpa, com o modelo sugerido |
 | `/projeto-novo` | prepara um projeto: `CLAUDE.md` enxuto + `.claude/` |
+| `/revisao-mecanica` | checagem de padrão de texto no diff (segredo, debug, conflito), roda em Haiku |
 | skill `economia-de-contexto` | réguas de modelo, compactação e delegação |
 | skill `claude-md` | escrever e auditar `CLAUDE.md` |
 | skill `plugin-do-projeto` | método pra criar plugin específico de um repo |
