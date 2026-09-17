@@ -56,6 +56,31 @@ descobrir sozinha, porque ela vai chutar, e o chute compila. Duas categorias já
   desktop e ilegível no celular, e "conferido em 360px" vira caixa marcada sem
   verificação de verdade.
 
+### Fidelidade ao desenho é regra, não sugestão
+
+Vale para `tela-nova` e para `task`/`passo` que implementa uma tela com desenho aprovado.
+"Parecido com o desenho" é o resultado de sempre pular esta seção — force o oposto:
+
+- **Cite o arquivo do desenho no prompt, não descreva de memória.** A sessão nova só bate
+  igual se ela abrir o mesmo arquivo que você olhou — nomeie o caminho exato (o `.dc.html`,
+  a pasta em `design/referencias-externas/`, o screenshot).
+- **Texto é cópia, não paráfrase.** Rótulo de botão, mensagem de estado vazio, texto de
+  erro: o prompt exige copiar a string literal do desenho, plural/singular incluído — não
+  "algo como 'nenhum item encontrado'".
+- **Cor, espaçamento e ordem vêm do desenho, não de "parece bom".** Se o desenho usa um
+  token do design system do projeto (`--risco`, `--aviso`, etc.), o prompt nomeia o token —
+  não deixa a sessão escolher a cor mais próxima que achar.
+- **Liste todo estado/variante que o desenho mostra**, não só o que o pedido original citou
+  — desenho geralmente cobre vazio/erro/parcial/somente-leitura; se a sessão nova só vir o
+  estado principal, ela implementa só esse e os outros ficam "quase certos" por chute.
+- **Proíba invenção explicitamente**: nada de elemento a mais que pareça fazer sentido
+  (um botão, um campo, um link) que o desenho não tem, e nada a menos. Fora de escopo já
+  cobre isso implicitamente — aqui é pra dizer com todas as letras.
+- **O critério de pronto inclui bater com o desenho**, não só "funciona": comparação visual
+  lado a lado (screenshot da implementação vs. o arquivo/imagem do desenho) antes de marcar
+  pronto — mesma grade, cores, textos, estados. Sem essa comparação, "implementei a tela" e
+  "implementei igual ao desenho" são coisas diferentes e só a segunda é o pedido.
+
 E **cole junto o bloco de execução abaixo, sempre, literalmente** — ele custa 4 linhas no
 prompt e corta ida e volta na sessão inteira:
 
@@ -158,7 +183,8 @@ um plano chutado ou uma task sem critério.
 - **`tela-nova`** — nomeie o componente-molde já existente, a rota, o estado de carregando
   e de erro, e a conferência em 360px e nos dois temas. Se o projeto tem desenho, cite o
   arquivo do desenho **e** rode a checagem de "Convenções que a base já tem" acima —
-  contrato de dados real e molde de responsividade, não só o HTML do desenho.
+  contrato de dados real e molde de responsividade, não só o HTML do desenho — **e** aplique
+  "Fidelidade ao desenho é regra, não sugestão" abaixo, sempre que houver desenho.
 - **`endpoint`** — contrato (entrada, saída, erro), onde a validação mora, o que vai pro
   log e o que **nunca** vai (dado pessoal), e o teste que prova. Se devolve lista,
   a checagem de paginação acima também vale aqui.
