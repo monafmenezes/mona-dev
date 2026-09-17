@@ -11,7 +11,7 @@ Seis comandos e uma palavrinha mágica. Se você lembrar só de uma coisa, lembr
 | `/checkpoint` | antes de parar, compactar ou limpar | grava onde você parou, o que decidiu e o próximo passo em `.claude/checkpoint.md` — e mantém o `AGENTS.md` em dia |
 | `/retomar` | ao voltar num projeto | ele te conta o estado em ≤15 linhas, **sem reler o repositório** |
 | `/ideias` | quando a fila incomodar | triagem: cada ideia vira issue, vira spec, ou morre com o motivo escrito |
-| `/prompt <tipo> <o quê>` | antes de começar qualquer passo novo | monta o texto pra colar, já com os arquivos certos e o modelo sugerido — tipos: `spec`, `plano`, `tasks`, `task`, `tela-nova`, `endpoint`, `bug`, `revisao` |
+| `/prompt <tipo> <o quê>` | antes de começar qualquer passo novo | monta o texto pra colar, já com os arquivos certos e o modelo sugerido — tipos: `spec`, `plano`, `tasks`, `task`, `tela-nova`, `endpoint`, `bug`, `revisao`, `desenho` |
 | `/projeto-novo` | projeto novo, ou um antigo bagunçado | cria o `CLAUDE.md` enxuto e o `.claude/` |
 | `/revisao-mecanica [caminho]` | antes de commitar, uma olhada rápida | só padrão de texto no diff — segredo, debug esquecido, conflito não resolvido, arquivo indevido. Roda em Haiku, de propósito. **Não** é o `/code-review`: não acha bug nem sugere design, só o que qualquer um confirmaria olhando a linha |
 
@@ -106,8 +106,24 @@ bloqueado (🔒 e ⛓): se só sobrou bloqueio, eu digo quem está segurando em 
 | `bug` | "isso deveria funcionar e não funciona" | `/prompt bug o total do mês vem zerado` |
 | `revisao` | "está pronto, quero alguém olhando com régua" | `/prompt revisao a fatia 004 contra a constitution` |
 
-Três enganos fáceis de cometer:
+E um tipo que não é pra código nenhum:
 
+| Tipo | Use quando a frase for… | Exemplo de como digitar |
+|---|---|---|
+| `desenho` | "preciso que uma ferramenta de design desenhe essa tela" | `/prompt desenho tela de aprovar boletos pro studio ia` |
+
+`desenho` vira briefing pra Claude Design, Google AI Studio, v0 ou parecido — não pra uma
+sessão de código. Ele confere se a tela já foi desenhada antes de gerar de novo, descobre
+se a ferramenta é a do próprio projeto ou uma externa (e nesse caso avisa explicitamente
+qual framework **não** criar — Next.js é o erro mais comum de ferramenta externa chutando
+stack), e o formato tem quatro partes em vez de cinco: o que não se reabre, a tela com o
+dado real que ela consome, os estados que precisam aparecer, e o que não desenhar.
+
+Quatro enganos fáceis de cometer:
+
+- **`desenho` × `tela-nova`.** `desenho` é briefing pra uma ferramenta de design *desenhar*
+  — não implementa nada. Se a tela já foi desenhada (existe artboard, existe protótipo), é
+  `tela-nova` (ou `task`) que você quer, citando esse desenho como padrão a seguir.
 - **`task` × `tela-nova`.** Se o trabalho já está escrito num `tasks.md`, é **sempre `task`**
   — mesmo que o resultado seja uma tela. O `task` já traz os portões da fatia e a task irmã
   como molde; o `tela-nova` não sabe que esse `tasks.md` existe. Use `tela-nova` só quando

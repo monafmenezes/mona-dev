@@ -1,7 +1,7 @@
 ---
-description: Gerar o prompt pronto pra colar numa sessão limpa (spec, plano, tasks, task, tela, endpoint, bug, revisão)
+description: Gerar o prompt pronto pra colar numa sessão limpa (spec, plano, tasks, task, tela, endpoint, bug, revisão, desenho)
 allowed-tools: Bash(git status:*), Bash(ls:*), Bash(find:*), Bash(cat:*), Read, Grep, Glob
-argument-hint: "<spec|plano|tasks|task|tela-nova|endpoint|bug|revisao> <o que é / 004 / T017 / passo 3b / próxima> [pro antigravity]"
+argument-hint: "<spec|plano|tasks|task|tela-nova|endpoint|bug|revisao|desenho> <o que é / 004 / T017 / passo 3b / próxima> [pro antigravity | pro claude design | pro studio ia]"
 ---
 
 ## Projeto
@@ -15,7 +15,9 @@ argument-hint: "<spec|plano|tasks|task|tela-nova|endpoint|bug|revisao> <o que é
 Monte **o texto que ela vai colar numa sessão nova**, em bloco de código pra copiar.
 O objetivo é que a sessão nova comece sabendo tudo e **não precise explorar o repositório**.
 
-Todo prompt gerado tem estas cinco partes, sempre:
+Todo prompt gerado tem estas cinco partes, sempre — **exceto `desenho`, que tem forma
+própria** (ver a seção dele, mais abaixo: não vai pra uma sessão de código, vai pra uma
+ferramenta de design):
 
 1. **O que fazer** — uma frase, no imperativo.
 2. **Arquivos a ler, nomeados** — poucos e específicos (`caminho:linha` quando couber).
@@ -164,5 +166,57 @@ um plano chutado ou uma task sem critério.
   **como reproduzir**. Sem reprodução, o prompt é "adivinhe" e vai custar caro.
 - **`revisao`** — o que revisar, contra qual régua, e o formato da devolutiva.
 
-Se faltar informação pra preencher alguma das cinco partes, **pergunte agora** — prompt
-com buraco é retrabalho garantido na sessão seguinte, e aí a economia vira prejuízo.
+### `desenho` — pedir pra uma ferramenta de design desenhar uma tela
+
+Diferente de todos os outros: não vai pra uma sessão de código, vai pra um chat de design
+(Claude Design, Google AI Studio, v0, Figma Make…). Ninguém aqui vai *implementar* nada —
+o resultado é maquete ou protótipo, pra depois virar prompt `tela-nova` ou `task`.
+
+**Antes de escrever, confira se a tela já existe** — mesma regra do `tela-nova`: procure no
+que o projeto já tem de design aprovado (pasta de design, canvas do Claude Design, backlog
+de telas pendentes) antes de dizer que não existe. Gerar um briefing pra uma tela que já foi
+desenhada é a mesma perda que reimplementar uma tela que já existe.
+
+**Descubra o destino** (o pedido geralmente diz — "pro Claude Design", "pro Studio",
+"pro v0" — se não disser, pergunte):
+
+- **Ferramenta própria do projeto** (ex.: Claude Design, quando o projeto já usa um canvas
+  próprio pra telas aprovadas): o resultado entra direto no artboard do projeto — siga as
+  convenções que a base já tem (nome de variante, como o projeto já marca estado/tema,
+  tokens do design system existente).
+- **Ferramenta externa de prototipagem** (Google AI Studio, v0, Figma Make…): ela não
+  conhece a stack do projeto e **vai inventar uma se você não disser o contrário** — deixe
+  explícito **qual framework não criar** (ex.: "não crie projeto Next.js" se o projeto real
+  for Next.js — é o erro mais comum dessas ferramentas) e deixe claro que é **protótipo de
+  referência**, não código pra colar direto no repositório. Se o projeto tem arquivos de
+  design system e telas já aprovadas, diga pra anexá-los na mesma conversa — é como a
+  ferramenta copia tokens e vocabulário em vez de inventar os dela.
+
+**A forma do prompt** (não são as cinco partes de código — são estas quatro):
+
+1. **O que não se reabre** — a cor/token único do design system, o vocabulário do domínio
+   (se o projeto tiver uma regra tipo "quem lê não é da área", ela vale aqui também), a
+   regra de nunca usar dado real, os breakpoints e temas exigidos, e **o padrão a copiar**
+   — a tela mais próxima já aprovada, nomeada (não "algo parecido com", o arquivo/label
+   exato).
+2. **A tela: `<nome>`** — quando ela aparece no fluxo, e o **dado real** que ela consome:
+   nomeie o service/endpoint/tipo de verdade e os campos exatos — mesma checagem de
+   "contrato de dados, não só de layout" que o `tela-nova` já faz. Maquete que inventa um
+   campo plausível vira retrabalho quando a tela de verdade for implementada.
+3. **Estados/variantes que precisam aparecer** — sucesso, vazio, parcial, erro — cada um
+   com a condição real que o produz (não "e também um estado de erro", e sim "quando o
+   campo X vem null").
+4. **O que NÃO desenhar aqui** — cerca de escopo explícita. Ferramenta de design tende a
+   "resolver" o que não foi pedido (um fluxo vizinho, uma tela de detalhe) só porque parecia
+   fazer sentido — e cada coisa a mais desenhada é uma coisa a mais pra conferir contra o
+   dado real depois.
+
+Sem modelo sugerido no fim (ferramenta de design não tem esse seletor) — em vez disso,
+feche lembrando: **quando o desenho voltar, registre onde o projeto guarda referência de
+design** (se ele tiver essa convenção) antes de virar prompt de implementação — desenho que
+não é registrado em lugar nenhum se perde depois de duas sessões, e a próxima pessoa reabre
+a pergunta "isso já foi desenhado?" do zero.
+
+Se faltar informação pra preencher alguma das cinco partes (quatro no caso do `desenho`),
+**pergunte agora** — prompt com buraco é retrabalho garantido na sessão seguinte, e aí a
+economia vira prejuízo.
