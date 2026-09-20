@@ -119,6 +119,16 @@ Cursor, Copilot), o prompt é o mesmo — as cinco partes não mudam. Mudam quat
   A última linha do prompt deve pedir, ao terminar: *o que mudou (arquivo → o quê), o que
   foi decidido e o próximo passo*, em até 5 linhas — é isso que ela cola aqui no
   `/checkpoint` pra retomada continuar valendo.
+- **Redundância proposital nas restrições, não só uma menção.** Ferramenta fora do Claude
+  Code não tem o hábito de "fidelidade ao desenho" nem o mesmo freio contra inventar código
+  — ela explora mais e questiona menos. Repita as proibições em dois lugares: uma vez no
+  corpo (onde a regra se aplica) e de novo numa lista curta no fim do prompt, tipo "Antes de
+  marcar pronto, confira um a um: [lista]". Pra `tela-nova`/`task` com desenho, essa lista
+  final tem que incluir, sempre: nenhum elemento a mais que o desenho não tem, nenhum campo/
+  enum inventado (valor exato vem do arquivo:linha citado, não do rótulo em português), texto
+  copiado literal (não parafraseado), e a comparação lado a lado com o desenho antes de
+  marcar pronto. Custa quatro linhas a mais no prompt; sai mais barato que reabrir a task
+  porque "quase" bateu.
 
 Por tipo:
 
