@@ -11,12 +11,14 @@ prompt=$(printf '%s' "$entrada" | jq -r '.prompt // ""')
 cwd=$(printf '%s' "$entrada" | jq -r '.cwd // ""')
 [ -n "$cwd" ] || cwd=$PWD
 
-# Só reage ao prefixo. Aceita espaço antes e maiúscula/minúscula.
+# Só reage ao prefixo. Aceita espaço antes, maiúscula/minúscula, e o ":" esquecido
+# (ex.: "ideia outro bug..." sem os dois-pontos) — sem isso o hook não casa, o prompt
+# vaza pro modelo como tarefa normal e vira uma investigação cara por engano.
 shopt -s nocasematch
-[[ "$prompt" =~ ^[[:space:]]*ideia: ]] || exit 0
+[[ "$prompt" =~ ^[[:space:]]*ideia[[:space:]:] ]] || exit 0
 shopt -u nocasematch
 
-texto=$(printf '%s' "$prompt" | sed -E 's/^[[:space:]]*[Ii][Dd][Ee][Ii][Aa]:[[:space:]]*//')
+texto=$(printf '%s' "$prompt" | sed -E 's/^[[:space:]]*[Ii][Dd][Ee][Ii][Aa][[:space:]:]+//')
 
 # Segundo rótulo "plugin:" manda pro backlog do próprio mona-dev.
 destino=""
