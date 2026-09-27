@@ -15,7 +15,7 @@ durável, e `/clear` não salva nada.
 | `/checkpoint` | grava o estado do projeto em `.claude/checkpoint.md` antes de parar, e atualiza o `AGENTS.md` |
 | `/retomar` | devolve o estado em ≤15 linhas, sem reler o repositório |
 | `/ideias` | triagem da fila de ideias capturadas |
-| `/prompt` | gera o prompt colável pra uma sessão limpa, com o modelo sugerido |
+| `/prompt` | gera o prompt colável pra uma sessão limpa, com o modelo sugerido — ou despacha pro `executor` com `pro executor` |
 | `/projeto-novo` | prepara um projeto: `CLAUDE.md` enxuto + `.claude/` |
 | `/revisao-mecanica` | checagem de padrão de texto no diff (segredo, debug, conflito), roda em Haiku |
 | agente `varredura` | busca larga só leitura, devolve só a conclusão — Haiku |

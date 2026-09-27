@@ -92,7 +92,8 @@ O plugin traz dois, cada um travado num modelo barato:
 
 **`executor` ou sessão limpa?** O relatório dele volta pra esta sessão e é relido em toda
 resposta seguinte. Task pequena, com a sessão ainda leve: `executor`. Task grande, ou
-sessão já pesada: `/prompt` + sessão nova em Sonnet continua mais barato.
+sessão já pesada: `/prompt` + sessão nova em Sonnet continua mais barato. O atalho pro
+caso pequeno é `/prompt task T017 pro executor`, que já aplica esses portões.
 
 **Não existe "architect" nem orquestrador**, de propósito: a sessão principal já é o Opus
 com contexto — mandar decisão pra um Opus frio é pagar duas vezes. E subagente não chama

@@ -1,7 +1,7 @@
 ---
 description: Gerar o prompt pronto pra colar numa sessão limpa (spec, plano, tasks, task, tela, endpoint, bug, revisão, desenho)
-allowed-tools: Bash(git status:*), Bash(ls:*), Bash(find:*), Bash(cat:*), Read, Grep, Glob
-argument-hint: "<spec|plano|tasks|task|tela-nova|endpoint|bug|revisao|desenho> <o que é / 004 / T017 / passo 3b / próxima> [pro antigravity | pro claude design | pro studio ia]"
+allowed-tools: Bash(git status:*), Bash(git diff:*), Bash(ls:*), Bash(find:*), Bash(cat:*), Read, Grep, Glob, Agent
+argument-hint: "<spec|plano|tasks|task|tela-nova|endpoint|bug|revisao|desenho> <o que é / 004 / T017 / passo 3b / próxima> [pro executor | pro antigravity | pro claude design | pro studio ia]"
 ---
 
 ## Projeto
@@ -102,6 +102,37 @@ E feche com **o modelo sugerido**, com o motivo em meia linha:
 - **Opus** quando sobrou ambiguidade de verdade: decisão de arquitetura, spec,
   trade-off, ou bug cuja causa ninguém sabe.
 - **Haiku** para mecânico e repetitivo: renomear, mover, aplicar o mesmo ajuste em N arquivos.
+
+### `pro executor` — mandar direto pro agente, sem colar
+
+Quando o pedido terminar com **"pro executor"**, o prompt não vira bloco pra copiar: vai
+direto pro agente `executor` (Sonnet) do plugin, nesta mesma sessão. Serve pra task pequena
+com a sessão ainda leve. Antes de despachar, três portões — se algum falhar, **não
+despache**: diga o motivo em uma linha e entregue o prompt colável normal.
+
+1. **Tipo:** só `task` (uma task, não `passo` inteiro), `tela-nova` e `endpoint`. `spec`,
+   `plano`, `tasks`, `revisao` e `desenho` são decisão ou não são código; `bug` quase sempre
+   tem "descubra" dentro — só vai se a causa já estiver apontada com `arquivo:linha`.
+2. **Modelo:** se a régua acima daria **Opus** ou **Haiku**, não é pro `executor`. Ele é
+   Sonnet, e só serve pra quando as cinco partes ficaram concretas.
+3. **Tamanho:** o relatório volta pra esta sessão e é relido em toda resposta seguinte.
+   Sessão já acima de ~80k, ou task que mexe em mais de ~5 arquivos: sessão limpa sai
+   mais barato.
+
+Passou nos três:
+
+- Monte o prompt igual (cinco partes, convenções, fidelidade ao desenho, bloco "Como
+  executar"), **sem a linha de modelo sugerido** — o agente já é Sonnet.
+- **Não mostre o prompt no chat** — ele já vai inteiro pro agente; mostrar é pagar duas vezes.
+  Uma linha só: *"Mandando T017 pro executor: <o que fazer>."*
+- Chame o `executor` com o prompt como tarefa.
+- Na volta, **confira antes de relatar**: `git diff --stat` bate com os arquivos que ele
+  disse ter mexido? O critério de pronto rodou e passou? Se for `task`, o ✅ foi marcado no
+  `tasks.md`? Divergência vai em destaque — relatório bonito não é prova.
+- Relate em até 5 linhas: o que mudou, o critério, pendências. Sem commit.
+
+Se o `executor` voltar com uma pergunta em vez de código, a task não estava pronta: responda
+se você souber pelo contexto desta sessão e mande de novo; se não, leve a pergunta pra ela.
 
 ### Se o destino não for o Claude Code
 

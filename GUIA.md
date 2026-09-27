@@ -11,7 +11,7 @@ Seis comandos e uma palavrinha mágica. Se você lembrar só de uma coisa, lembr
 | `/checkpoint` | antes de parar, compactar ou limpar | grava onde você parou, o que decidiu e o próximo passo em `.claude/checkpoint.md` — e mantém o `AGENTS.md` em dia |
 | `/retomar` | ao voltar num projeto | ele te conta o estado em ≤15 linhas, **sem reler o repositório** |
 | `/ideias` | quando a fila incomodar | triagem: cada ideia vira issue, vira spec, ou morre com o motivo escrito |
-| `/prompt <tipo> <o quê>` | antes de começar qualquer passo novo | monta o texto pra colar, já com os arquivos certos e o modelo sugerido — tipos: `spec`, `plano`, `tasks`, `task`, `tela-nova`, `endpoint`, `bug`, `revisao`, `desenho` |
+| `/prompt <tipo> <o quê>` | antes de começar qualquer passo novo | monta o texto pra colar, já com os arquivos certos e o modelo sugerido (ou manda direto pro `executor`, com `pro executor` no fim) — tipos: `spec`, `plano`, `tasks`, `task`, `tela-nova`, `endpoint`, `bug`, `revisao`, `desenho` |
 | `/projeto-novo` | projeto novo, ou um antigo bagunçado | cria o `CLAUDE.md` enxuto e o `.claude/` |
 | `/revisao-mecanica [caminho]` | antes de commitar, uma olhada rápida | só padrão de texto no diff — segredo, debug esquecido, conflito não resolvido, arquivo indevido. Roda em Haiku, de propósito. **Não** é o `/code-review`: não acha bug nem sugere design, só o que qualquer um confirmaria olhando a linha |
 
@@ -80,6 +80,11 @@ nada.
 Vai desenvolver no Antigravity? Termine o pedido com **`pro antigravity`**: sai o mesmo
 prompt, sem comando do Claude Code dentro, apontando o `AGENTS.md` e já pedindo as 5 linhas
 de retorno que você cola aqui no `/checkpoint` depois.
+
+Task pequena e sessão ainda leve? Termine com **`pro executor`**: em vez de colar numa
+sessão nova, o prompt vai direto pro agente `executor` (Sonnet), e eu confiro o `git diff`
+e o critério de pronto antes de te contar como foi. Se a task for grande, ambígua ou a
+sessão já estiver pesada, eu recuso e te dou o prompt colável normal, dizendo por quê.
 
 O modelo sugerido vem junto, com o motivo: se as cinco partes ficaram concretas, **Sonnet
 resolve**. Se sobrou "descubra", é Opus — delegar ambiguidade pro modelo barato sai mais
