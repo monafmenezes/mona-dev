@@ -106,29 +106,44 @@ E feche com **o modelo sugerido**, com o motivo em meia linha:
 ### `pro executor` — mandar direto pro agente, sem colar
 
 Quando o pedido terminar com **"pro executor"**, o prompt não vira bloco pra copiar: vai
-direto pro agente `executor` (Sonnet) do plugin, nesta mesma sessão. Serve pra task pequena
-com a sessão ainda leve. Antes de despachar, três portões — se algum falhar, **não
-despache**: diga o motivo em uma linha e entregue o prompt colável normal.
+direto pro agente `executor` (Sonnet) do plugin. A economia só existe se **quem lê e pensa
+é o executor**, com contexto pequeno em Sonnet — não esta sessão, que já está pesada e é Opus.
+Medido no `acerto` (27/09): o Opus leu tudo e escreveu o SQL inteiro no prompt, a ~80k de
+contexto; o executor só digitou e testou. A preparação custou o dobro da execução.
+
+**Portões — se algum falhar, não despache**: diga o motivo em uma linha e siga o caminho
+indicado.
 
 1. **Tipo:** só `task` (uma task, não `passo` inteiro), `tela-nova` e `endpoint`. `spec`,
    `plano`, `tasks`, `revisao` e `desenho` são decisão ou não são código; `bug` quase sempre
    tem "descubra" dentro — só vai se a causa já estiver apontada com `arquivo:linha`.
-2. **Modelo:** se a régua acima daria **Opus** ou **Haiku**, não é pro `executor`. Ele é
-   Sonnet, e só serve pra quando as cinco partes ficaram concretas.
-3. **Tamanho:** o relatório volta pra esta sessão e é relido em toda resposta seguinte.
-   Sessão já acima de ~80k, ou task que mexe em mais de ~5 arquivos: sessão limpa sai
-   mais barato.
+   Falhou → prompt colável normal.
+2. **Modelo:** se a régua acima daria **Opus** ou **Haiku**, não é pro `executor`.
+   Falhou → prompt colável normal.
+3. **Tamanho da sessão:** **70k de contexto ou mais, não despacha** — sem "mais ou menos".
+   O relatório volta e é relido aqui, e a conferência roda aqui. Falhou → prompt colável
+   pra sessão nova.
+4. **Você já sabe a solução inteira?** Se a resposta cabe em poucas linhas e você já a tem
+   de cabeça (uma migration de 4 linhas, um campo a mais), **faça direto** — escrever a
+   solução num prompt pra outro modelo digitar é pagar o pensamento em Opus e a digitação
+   em dobro. Se a conferência for longa (subir banco, rodar suíte), faça a edição e mande
+   **só a conferência** pro executor.
 
-Passou nos três:
+Passou nos quatro:
 
-- Monte o prompt igual (cinco partes, convenções, fidelidade ao desenho, bloco "Como
-  executar"), **sem a linha de modelo sugerido** — o agente já é Sonnet.
-- **Não mostre o prompt no chat** — ele já vai inteiro pro agente; mostrar é pagar duas vezes.
-  Uma linha só: *"Mandando T017 pro executor: <o que fazer>."*
-- Chame o `executor` com o prompt como tarefa.
-- Na volta, **confira antes de relatar**: `git diff --stat` bate com os arquivos que ele
-  disse ter mexido? O critério de pronto rodou e passou? Se for `task`, o ✅ foi marcado no
-  `tasks.md`? Divergência vai em destaque — relatório bonito não é prova.
+- **Não leia pra montar o prompt.** Nada de abrir `plan.md`, molde ou as seções do fim do
+  `tasks.md` aqui — confira só a linha da task (e a legenda de bloqueio) pra passar nos
+  portões. O resto o executor lê.
+- **Prompt curto, de ponteiros, não de conteúdo**: o ID e o arquivo da task; os caminhos
+  que ele deve ler (a seção do plan que a task cita, as duas seções do fim do `tasks.md`,
+  o `CLAUDE.md`); o molde, se você já souber qual é sem procurar; o critério de pronto é o
+  *Pronto quando* da própria task. Sem trecho de código, sem SQL, sem resumo do plan.
+- Inclua o bloco "Como executar" e, se for tela com desenho, a exigência de fidelidade
+  (como ponteiro pro arquivo do desenho, não como descrição).
+- **Não mostre o prompt no chat.** Uma linha só: *"Mandando T017 pro executor: <o que fazer>."*
+- Na volta, **confira antes de relatar**, barato: `git diff --stat` bate com o que ele
+  disse ter mexido? O critério rodou e passou? Se for `task`, o ✅ foi marcado? Divergência
+  vai em destaque — relatório bonito não é prova.
 - Relate em até 5 linhas: o que mudou, o critério, pendências. Sem commit.
 
 Se o `executor` voltar com uma pergunta em vez de código, a task não estava pronta: responda

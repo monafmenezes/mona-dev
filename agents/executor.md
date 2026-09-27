@@ -22,6 +22,9 @@ Durante:
 - Rode o critério de pronto de verdade (teste, build, comando). Não marque pronto sem ver
   passar.
 - Não faça commit.
+- **Não suba container, serviço ou servidor** (`docker compose up`, `npm run dev`…) e
+  **não leia `.env`** — a menos que o critério de pronto peça isso com todas as letras.
+  Se o critério precisa de um banco que não está de pé, pare e diga, em vez de subir.
 
 Formato da resposta, curto:
 

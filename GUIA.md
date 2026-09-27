@@ -84,7 +84,9 @@ de retorno que você cola aqui no `/checkpoint` depois.
 Task pequena e sessão ainda leve? Termine com **`pro executor`**: em vez de colar numa
 sessão nova, o prompt vai direto pro agente `executor` (Sonnet), e eu confiro o `git diff`
 e o critério de pronto antes de te contar como foi. Se a task for grande, ambígua ou a
-sessão já estiver pesada, eu recuso e te dou o prompt colável normal, dizendo por quê.
+sessão já estiver em 70k ou mais, eu recuso e te dou o prompt colável normal, dizendo por
+quê. E se a solução for tão pequena que eu já sei de cabeça, eu faço direto — mandar eu
+escrever pro Sonnet digitar é pagar duas vezes.
 
 O modelo sugerido vem junto, com o motivo: se as cinco partes ficaram concretas, **Sonnet
 resolve**. Se sobrou "descubra", é Opus — delegar ambiguidade pro modelo barato sai mais
