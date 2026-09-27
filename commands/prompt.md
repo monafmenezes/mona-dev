@@ -1,7 +1,7 @@
 ---
 description: Gerar o prompt pronto pra colar numa sessão limpa (spec, plano, tasks, task, tela, endpoint, bug, revisão, desenho)
-allowed-tools: Bash(git status:*), Bash(git diff:*), Bash(ls:*), Bash(find:*), Bash(cat:*), Read, Grep, Glob, Agent
-argument-hint: "<spec|plano|tasks|task|tela-nova|endpoint|bug|revisao|desenho> <o que é / 004 / T017 / passo 3b / próxima> [pro executor | pro antigravity | pro claude design | pro studio ia]"
+allowed-tools: Bash(git status:*), Bash(ls:*), Bash(find:*), Bash(cat:*), Read, Grep, Glob
+argument-hint: "<spec|plano|tasks|task|tela-nova|endpoint|bug|revisao|desenho> <o que é / 004 / T017 / passo 3b / próxima> [pro antigravity | pro claude design | pro studio ia]"
 ---
 
 ## Projeto
@@ -102,52 +102,6 @@ E feche com **o modelo sugerido**, com o motivo em meia linha:
 - **Opus** quando sobrou ambiguidade de verdade: decisão de arquitetura, spec,
   trade-off, ou bug cuja causa ninguém sabe.
 - **Haiku** para mecânico e repetitivo: renomear, mover, aplicar o mesmo ajuste em N arquivos.
-
-### `pro executor` — mandar direto pro agente, sem colar
-
-Quando o pedido terminar com **"pro executor"**, o prompt não vira bloco pra copiar: vai
-direto pro agente `executor` (Sonnet) do plugin. A economia só existe se **quem lê e pensa
-é o executor**, com contexto pequeno em Sonnet — não esta sessão, que já está pesada e é Opus.
-Medido no `acerto` (27/09): o Opus leu tudo e escreveu o SQL inteiro no prompt, a ~80k de
-contexto; o executor só digitou e testou. A preparação custou o dobro da execução.
-
-**Portões — se algum falhar, não despache**: diga o motivo em uma linha e siga o caminho
-indicado.
-
-1. **Tipo:** só `task` (uma task, não `passo` inteiro), `tela-nova` e `endpoint`. `spec`,
-   `plano`, `tasks`, `revisao` e `desenho` são decisão ou não são código; `bug` quase sempre
-   tem "descubra" dentro — só vai se a causa já estiver apontada com `arquivo:linha`.
-   Falhou → prompt colável normal.
-2. **Modelo:** se a régua acima daria **Opus** ou **Haiku**, não é pro `executor`.
-   Falhou → prompt colável normal.
-3. **Tamanho da sessão:** **70k de contexto ou mais, não despacha** — sem "mais ou menos".
-   O relatório volta e é relido aqui, e a conferência roda aqui. Falhou → prompt colável
-   pra sessão nova.
-4. **Você já sabe a solução inteira?** Se a resposta cabe em poucas linhas e você já a tem
-   de cabeça (uma migration de 4 linhas, um campo a mais), **faça direto** — escrever a
-   solução num prompt pra outro modelo digitar é pagar o pensamento em Opus e a digitação
-   em dobro. Se a conferência for longa (subir banco, rodar suíte), faça a edição e mande
-   **só a conferência** pro executor.
-
-Passou nos quatro:
-
-- **Não leia pra montar o prompt.** Nada de abrir `plan.md`, molde ou as seções do fim do
-  `tasks.md` aqui — confira só a linha da task (e a legenda de bloqueio) pra passar nos
-  portões. O resto o executor lê.
-- **Prompt curto, de ponteiros, não de conteúdo**: o ID e o arquivo da task; os caminhos
-  que ele deve ler (a seção do plan que a task cita, as duas seções do fim do `tasks.md`,
-  o `CLAUDE.md`); o molde, se você já souber qual é sem procurar; o critério de pronto é o
-  *Pronto quando* da própria task. Sem trecho de código, sem SQL, sem resumo do plan.
-- Inclua o bloco "Como executar" e, se for tela com desenho, a exigência de fidelidade
-  (como ponteiro pro arquivo do desenho, não como descrição).
-- **Não mostre o prompt no chat.** Uma linha só: *"Mandando T017 pro executor: <o que fazer>."*
-- Na volta, **confira antes de relatar**, barato: `git diff --stat` bate com o que ele
-  disse ter mexido? O critério rodou e passou? Se for `task`, o ✅ foi marcado? Divergência
-  vai em destaque — relatório bonito não é prova.
-- Relate em até 5 linhas: o que mudou, o critério, pendências. Sem commit.
-
-Se o `executor` voltar com uma pergunta em vez de código, a task não estava pronta: responda
-se você souber pelo contexto desta sessão e mande de novo; se não, leve a pergunta pra ela.
 
 ### Se o destino não for o Claude Code
 
