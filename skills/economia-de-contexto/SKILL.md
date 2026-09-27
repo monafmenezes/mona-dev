@@ -83,6 +83,24 @@ Cada subagente **nasce frio** e redescobre o que esta sessão já sabe. Vale qua
 varredura é larga e você só quer a conclusão (procurar em 200 arquivos). Não vale pra
 tarefa que esta sessão já tem contexto pra fazer — aí é pagar duas vezes pelo mesmo saber.
 
+O plugin traz dois, cada um travado num modelo barato:
+
+| Agente | Modelo | Chame quando | Não chame quando |
+|---|---|---|---|
+| `varredura` | Haiku | busca larga, só leitura, só a conclusão importa | são 1–3 arquivos já conhecidos — `Grep` direto é mais barato que o agente nascer |
+| `executor` | Sonnet | a task tem as cinco partes do `/prompt` preenchidas com coisa concreta | sobrou "descubra" ou "decida" — ambiguidade no modelo barato volta errada |
+
+**`executor` ou sessão limpa?** O relatório dele volta pra esta sessão e é relido em toda
+resposta seguinte. Task pequena, com a sessão ainda leve: `executor`. Task grande, ou
+sessão já pesada: `/prompt` + sessão nova em Sonnet continua mais barato.
+
+**Não existe "architect" nem orquestrador**, de propósito: a sessão principal já é o Opus
+com contexto — mandar decisão pra um Opus frio é pagar duas vezes. E subagente não chama
+subagente, então orquestrador em subagente nem funciona.
+
+Depois do `executor`, **confira** — `git diff --stat` e o critério de pronto. Relatório
+bonito não é prova de que ficou certo.
+
 ## O que custa sem aparecer
 
 - **`CLAUDE.md`**: cada linha é paga em **toda** sessão daquele projeto. Teto de 60 linhas.

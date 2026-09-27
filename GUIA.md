@@ -15,6 +15,15 @@ Seis comandos e uma palavrinha mágica. Se você lembrar só de uma coisa, lembr
 | `/projeto-novo` | projeto novo, ou um antigo bagunçado | cria o `CLAUDE.md` enxuto e o `.claude/` |
 | `/revisao-mecanica [caminho]` | antes de commitar, uma olhada rápida | só padrão de texto no diff — segredo, debug esquecido, conflito não resolvido, arquivo indevido. Roda em Haiku, de propósito. **Não** é o `/code-review`: não acha bug nem sugere design, só o que qualquer um confirmaria olhando a linha |
 
+E dois agentes, que eu chamo quando cabe (ou você pede pelo nome):
+
+| Agente | Quando | Modelo |
+|---|---|---|
+| `varredura` | "onde isso é usado?" em dezenas de arquivos — volta só a conclusão com `arquivo:linha` | Haiku |
+| `executor` | uma task pronta, do jeito que o `/prompt` monta, pequena o bastante pra não valer sessão nova | Sonnet |
+
+Não tem agente pra decidir arquitetura: isso fica na sessão principal, que já tem o contexto.
+
 E uma coisa que acontece **sozinha**: depois de um `/compact` ou `/clear`, a retomada
 aparece na tela sem você pedir — mas só se aquele projeto tiver checkpoint. Projeto sem
 checkpoint não mostra nada e não custa nada.
